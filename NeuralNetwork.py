@@ -1,6 +1,6 @@
 class NeuralNetwork(object):
     
-    def __init__(self,iters=200,learning_rate=0.01,layer_dims=[8,7,5,1]):
+    def __init__(self,iters=2000,learning_rate=0.01,layer_dims=[8,7,5,1]):
         self.iters = iters
         self.learning_rate = learning_rate
         self.layer_dims = layer_dims
@@ -111,8 +111,7 @@ class NeuralNetwork(object):
             self.parameters["W" + str(l+1)] = self.parameters["W" + str(l+1)] - self.learning_rate * grads["dW" + str(l+1)]
             self.parameters["b" + str(l+1)] = self.parameters["b" + str(l+1)] - self.learning_rate * grads["db" + str(l+1)]
     def fit(self,x,y):
-        #x = x.T
-        #y = y.reshape((1,-1))
+        
         x,y = self.reshapeInput(x,y)
         self.layer_dims.insert(0,x.shape[0])
         
@@ -122,7 +121,6 @@ class NeuralNetwork(object):
             AL,caches = self.forward(x)
             cost = self.computeCost(AL,y)
             grads = self.backward(AL,y,caches)
-            
             self.updateParameters(grads)
             if i % 100 == 0:
                 print(f'cost at iteration {i} : {cost}')
